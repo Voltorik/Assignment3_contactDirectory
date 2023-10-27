@@ -3,7 +3,7 @@ This project is a contact directory that uses a json file as its database.
 The json file in not rewritten after execution so certain functions only work with the hardcoded values.
 
 # Quick Start
-1. Clone down the repo and run locally. Local host is set to port 3000.
+1. Clone down the repo, run `npm install`, and run locally using the command `node server` in the terminal. Local host is set to port 3000.
 2. Open up a web browser and enter `localhost:3000`. This will take you to the main page.
 3. From there all the functions should be available. Please read the bellow for more info.
 
