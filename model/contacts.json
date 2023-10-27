@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "Jeremey Raftston",
+        "phoneNum": "504-397-2726",
+        "email": "jrafston@gmail.com",
+        "address": ""
+    }, 
+    {
+        "id": 2,
+        "name": "Micheal Perry",
+        "phoneNum": "305-968-1345",
+        "email": "mperry@gmail.com",
+        "address": ""
+    }, 
+    {
+        "id": 3,
+        "name": "Sarah Willians",
+        "phoneNum": "206-545-3221",
+        "email": "swilliams@outlook.com",
+        "address": ""
+    }
+]

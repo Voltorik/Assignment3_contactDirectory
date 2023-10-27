@@ -1,0 +1,26 @@
+body {
+    background-color: grey;
+}
+
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+table, 
+th,
+td {
+    padding: 5px;
+    border: 1px solid black;
+}
+
+fieldset {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 1.2rem;
+}

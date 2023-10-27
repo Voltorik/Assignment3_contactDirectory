@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 3</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body onload="displayContacts()">
+    <table id="contactsTable">
+        <thead>
+            <tr>
+                <th colspan="5">Contacts Table</th>
+            </tr>
+        </thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+    </table>
+    
+    <form action="/contact" method="post">
+        <fieldset>
+            <legend>Create New Contact</legend>
+            <div>
+                <label for="name">Enter contact's name: </label>
+                <input type="text" name="name" required />
+            </div>
+            <div>
+                <label for="phoneNum">Enter contact's phone number: </label>
+                <input type="number" name="phoneNum" required />
+            </div>
+            <div>
+                <label for="email">Enter contact's email: </label>
+                <input type="email" name="email" required />
+            </div>
+            <div>
+                <label for="address">Enter contact's address</label>
+                <input type="string" name="address" />
+            </div>
+           <button>Submit</button>
+        </fieldset>
+    </form>
+
+    <fieldset>
+        <legend>Update Contact</legend>
+        <div>
+            <label for="id">Enter the ID for the contact to update: </label>
+            <input type="number" id="updateId" required />
+        </div>
+        <br>
+        <div>
+            <label for="name">Enter contact's name: </label>
+            <input type="text" id="updateName" />
+        </div>
+        <div>
+            <label for="phoneNum">Enter contact's phone number: </label>
+            <input type="number" id="updatePhoneNum" />
+        </div>
+        <div>
+            <label for="email">Enter contact's email: </label>
+            <input type="email" id="updateEmail" />
+        </div>
+        <div>
+            <label for="address">Enter contact's address</label>
+            <input type="string" id="updateAddress" />
+        </div>
+        <button onclick="updateContact()">Submit</button>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Delete Contact</legend>
+        <div>
+            <label for="id">Enter the ID for the contact to delete: </label>
+            <input type="number" id="deleteId" required />
+        </div>
+        <button onclick="deleteContact()">Submit</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Get Contact By ID</legend>
+        <div>
+            <label for="id">Enter the ID for the contact to find: </label>
+            <input type="number" id="getId" required />
+        </div>
+        <button onclick="getContact()">GET contact by ID</button> 
+        <br>
+        <p id="myContact"></p>
+    
+
+        <table id="singleContact">
+            <thead>
+                <tr>
+                    <th colspan="5">Contact Table</th>
+                </tr>
+            </thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Address</th>
+            </tr>
+        </table>
+    </fieldset>
+</body>
+</html>
+
+<script>
+    async function displayContacts(contact) {
+        try {
+            const response = await fetch("http://localhost:3000/contact");
+            const contacts = await response.json();
+            const table = document.getElementById("contactsTable");
+
+            for (contact in contacts) {
+                const newRow = table.insertRow(-1);
+                for (ele in contacts[contact]) {
+                    const newCell = newRow.insertCell(-1);
+                    newCell.innerHTML = contacts[contact][ele];
+                }
+            }
+        } catch (err) {
+            console.error("Error during update:", err);
+        }
+        
+    }
+
+    async function updateContact() {
+        const id = document.getElementById("updateId").value;
+        const name = document.getElementById("updateName").value;
+        const phoneNum = document.getElementById("updatePhoneNum").value;
+        const email = document.getElementById("updateEmail").value;
+        const address = document.getElementById("updateAddress").value;
+
+        const req = {
+            id: parseInt(id),
+            name: name,
+            phoneNum: phoneNum,
+            email: email,
+            address: address
+        }
+
+        try {
+            const res = await fetch("http://localhost:3000/contact", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                body: JSON.stringify(req),
+            });
+
+            if (!res.ok) {
+                alert(`Status: ${res.status} ${res.statusText}`);
+            }
+            location.reload();
+        } catch (err) {
+            console.error("Error during update:", err);
+        }
+    } 
+        
+    async function deleteContact() {
+        const id = document.getElementById("deleteId").value;
+
+        const req = {
+            id: parseInt(id),
+        }
+
+        try {
+            const res = await fetch("http://localhost:3000/contact", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(req),
+            });
+
+            console.log(res);
+
+            if (!res.ok) {
+                alert(`Status: ${res.status} ${res.statusText}`);
+            }
+            location.reload();
+        } catch (err) {
+            console.error("Error during delete:", err);
+        }
+    }
+
+    async function getContact() {
+        const id = document.getElementById("getId").value;
+        const contactElement = document.getElementById("myContact");
+
+        const response = await fetch(`http://localhost:3000/contact/${id}`);
+        const contact = await response.json();
+
+        if (!res.ok) {
+            alert(`Status: ${res.status} ${res.statusText}`);
+        }
+
+        const table = document.getElementById("singleContact");
+        const newRow = table.insertRow(-1);
+        for (ele in contact) {
+            const newCell = newRow.insertCell(-1);
+            newCell.innerHTML = contact[ele];
+        }
+    }
+</script>
